@@ -19,7 +19,7 @@ A Django-based web application that predicts the ripeness of tomatoes using imag
 - **Frontend:** HTML, CSS, JavaScript
 - **Machine Learning:** TensorFlow/Keras (or specify your library)
 - **Database:** SQLite (or your chosen database)
-- **Other Tools:** Python Decouple, OpenCV (if used), etc.
+- **Other Tools:** Python Decouple, OpenCV etc.
 
 ---
 
@@ -68,15 +68,15 @@ Follow these steps to set up and run the project locally:
 ---
 
 ## 📸 Screenshots
-
-Add screenshots of your application in action to give users a visual understanding.
+(./screenshots/Screenshot from 2024-12-22 12-50-58.png)
+(./screenshots/Screenshot from 2024-12-22 12-51-17.png)
 
 ---
 
 ## 🤖 Machine Learning Model
 
 - **Model Type:** (e.g., CNN, ResNet)
-- **Dataset:** Mention the dataset used for training (e.g., Kaggle Tomato Dataset).
+- **Dataset:** The dataset used for training was collected manually and curated by the author. It contains images of tomatoes at various stages of ripeness, along with labels indicating their ripeness level..
 - **Accuracy:** Include model accuracy and key performance metrics.
 
 ---
@@ -93,14 +93,6 @@ Add screenshots of your application in action to give users a visual understandi
 
 - [ ] Enhance UI/UX with modern designs.
 - [ ] Add support for multiple image uploads.
-- [ ] Integrate advanced models for improved accuracy.
-
----
-
-## 🖥️ Deployment
-
-If the project is deployed, mention where it can be accessed (e.g., Heroku, AWS):  
-[Live Demo](#)
 
 ---
 
@@ -125,20 +117,9 @@ If the project is deployed, mention where it can be accessed (e.g., Heroku, AWS)
 
 ## 🛡️ License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙌 Acknowledgments
-
-- Special thanks to [Kaggle](https://www.kaggle.com) for providing the dataset.
-- Thanks to Django and TensorFlow communities for their amazing resources.
-
----
-
-## 📧 Contact
-
-For questions or support, contact:  
-**Your Name**  
-**[your.email@example.com](mailto:your.email@example.com)**
 
