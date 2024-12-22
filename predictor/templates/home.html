@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato Classifier</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff6f61, #ff3b3b);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease;
+        }
+        input[type="file"] {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            background: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button {
+            background: #ff3b3b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background: #d12e2e;
+            transform: scale(1.1);
+        }
+        /* Modal and Overlay Styling */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .modal.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .modal-content {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .probability-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .probability-list li {
+            padding: 5px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            margin: 5px 0;
+            text-align: left;
+        }
+        .close-btn {
+            background: #ff3b3b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .close-btn:hover {
+            background: #d12e2e;
+            transform: scale(1.1);
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 5;
+        }
+        .overlay.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tomato Classifier</h1>
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+
+    <!-- Modal for Result -->
+    <div class="overlay" id="overlay"></div>
+    <div class="modal" id="resultModal">
+        <div class="modal-header">Prediction Result</div>
+        <div class="modal-content">
+            <strong>Predicted Class:</strong> <span id="predictedClass"></span><br>
+            <strong>Class Probabilities:</strong>
+            <ul id="probabilities" class="probability-list"></ul>
+        </div>
+        <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const resultModal = document.getElementById('resultModal');
+        const predictedClass = document.getElementById('predictedClass');
+        const probabilities = document.getElementById('probabilities');
+        const overlay = document.getElementById('overlay');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch');
+
+                const data = await response.json();
+
+                // Update modal content
+                predictedClass.textContent = data.predicted_class;
+                probabilities.innerHTML = '';
+                data.probabilities.forEach((prob, index) => {
+                    const className = ['Damaged', 'Green', 'Red', 'Yellow'][index];
+                    const li = document.createElement('li');
+                    li.textContent = `${className}: ${(prob * 100).toFixed(2)}%`;
+                    probabilities.appendChild(li);
+                });
+
+                openModal();
+            } catch (err) {
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        function openModal() {
+            resultModal.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function closeModal() {
+            resultModal.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    </script>
+</body>
+</html>

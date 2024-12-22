@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato Classifier Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Dark Theme Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #121212;
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .container {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+            width: 80%;
+        }
+        .result-header {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        .chart-container {
+            margin-top: 20px;
+            width: 80%;
+            margin: auto;
+        }
+        .prediction {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        .additional-info {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #b0b0b0;
+        }
+        .back-btn {
+            background: #ff3b3b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+        }
+        .back-btn:hover {
+            background: #d12e2e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="result-header">Tomato Classifier Result</h1>
+        <div class="prediction">
+            <strong>Predicted Class:</strong> <span id="predictedClass"></span>
+        </div>
+        <div class="chart-container">
+            <canvas id="probabilityChart"></canvas>
+        </div>
+        <div class="additional-info">
+            <p>Class Probabilities:</p>
+            <ul id="probabilityList"></ul>
+        </div>
+        <button class="back-btn" onclick="window.location.href='/'">Back to Home</button>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const predictedClass = params.get('predicted_class');
+        const probabilities = JSON.parse(params.get('probabilities'));
+
+        document.getElementById('predictedClass').textContent = predictedClass;
+
+        const chartContainer = document.getElementById('probabilityChart').getContext('2d');
+        const probabilityList = document.getElementById('probabilityList');
+
+        // Populate probability list
+        probabilities.forEach((prob, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${['Damaged', 'Green', 'Red', 'Yellow'][index]}: ${(prob * 100).toFixed(2)}%`;
+            probabilityList.appendChild(listItem);
+        });
+
+        // Create pie chart for class probabilities
+        new Chart(chartContainer, {
+            type: 'pie',
+            data: {
+                labels: ['Damaged', 'Green', 'Red', 'Yellow'],
+                datasets: [{
+                    label: 'Class Probabilities',
+                    data: probabilities.map(p => (p * 100).toFixed(2)),
+                    backgroundColor: ['#ff6f61', '#76c893', '#ff3b3b', '#f9e26b'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            color: '#ffffff',
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
