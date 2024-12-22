@@ -68,8 +68,10 @@ Follow these steps to set up and run the project locally:
 ---
 
 ## 📸 Screenshots
-(./screenshots/Screenshot from 2024-12-22 12-50-58.png)
-(./screenshots/Screenshot from 2024-12-22 12-51-17.png)
+## 📸 Screenshots
+
+![Screenshot 1](./screenshots/Screenshot%20from%202024-12-22%2012-50-58.png)
+![Screenshot 2](./screenshots/Screenshot%20from%202024-12-22%2012-51-17.png)
 
 ---
 
