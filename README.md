@@ -17,8 +17,8 @@ A Django-based web application that predicts the ripeness of tomatoes using imag
 
 - **Backend:** Django 3.2
 - **Frontend:** HTML, CSS, JavaScript
-- **Machine Learning:** TensorFlow/Keras (or specify your library)
-- **Database:** SQLite (or your chosen database)
+- **Machine Learning:** TensorFlow/Keras
+- **Database:** SQLite 
 - **Other Tools:** Python Decouple, OpenCV etc.
 
 ---
@@ -29,7 +29,7 @@ Follow these steps to set up and run the project locally:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/tomato_Prediction.git
+   git clone https://github.com/raj208/tomato_Prediction.git
    cd tomato_Prediction
    ```
 
